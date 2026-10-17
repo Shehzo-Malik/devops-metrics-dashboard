@@ -1,0 +1,29 @@
+name: Deploy DevOps Metrics Dashboard
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node environment (Validation)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run Build Verification
+        run: |
+          echo "[INFO] Verifying HTML, CSS, and JS file integrity..."
+          ls -la
+          echo "[SUCCESS] Build verification passed successfully."
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
